@@ -1,0 +1,31 @@
+[Fri May  1 20:30:13 2026] PHP 8.2.12 Development Server (http://localhost:8001) started
+[Fri May  1 20:30:38 2026] [::1]:50998 Accepted
+[Fri May  1 20:30:38 2026] [::1]:50998 [200]: GET /cart_action.php?action=get
+[Fri May  1 20:30:38 2026] [::1]:50998 Closing
+[Fri May  1 20:30:38 2026] [::1]:51000 Accepted
+[Fri May  1 20:30:38 2026] [::1]:51000 [200]: POST /cart_action.php
+[Fri May  1 20:30:38 2026] [::1]:51000 Closing
+[Fri May  1 20:30:39 2026] [::1]:51002 Accepted
+[Fri May  1 20:30:39 2026] [::1]:51002 [200]: POST /wishlist_action.php
+[Fri May  1 20:30:39 2026] [::1]:51002 Closing
+[Fri May  1 20:30:39 2026] [::1]:51004 Accepted
+[Fri May  1 20:30:39 2026] [::1]:51004 [200]: GET /map_product_id.php?id=rose-blue-sapphire
+[Fri May  1 20:30:39 2026] [::1]:51004 Closing
+[Fri May  1 20:30:39 2026] [::1]:51005 Accepted
+[Fri May  1 20:30:39 2026] [::1]:51005 [200]: POST /checkout_action.php
+[Fri May  1 20:30:39 2026] [::1]:51005 Closing
+[Fri May  1 20:31:47 2026] [::1]:51020 Accepted
+[Fri May  1 20:31:47 2026] [::1]:51020 [200]: GET /cart_action.php?action=get
+[Fri May  1 20:31:47 2026] [::1]:51020 Closing
+[Fri May  1 20:31:47 2026] [::1]:51022 Accepted
+[Fri May  1 20:31:47 2026] [::1]:51022 [200]: POST /cart_action.php
+[Fri May  1 20:31:47 2026] [::1]:51022 Closing
+[Fri May  1 20:31:47 2026] [::1]:51024 Accepted
+[Fri May  1 20:31:47 2026] [::1]:51024 [200]: POST /wishlist_action.php
+[Fri May  1 20:31:47 2026] [::1]:51024 Closing
+[Fri May  1 20:31:47 2026] [::1]:51026 Accepted
+[Fri May  1 20:31:47 2026] [::1]:51026 [200]: GET /map_product_id.php?id=rose-blue-sapphire
+[Fri May  1 20:31:47 2026] [::1]:51026 Closing
+[Fri May  1 20:31:47 2026] [::1]:51027 Accepted
+[Fri May  1 20:31:47 2026] [::1]:51027 [200]: POST /checkout_action.php
+[Fri May  1 20:31:47 2026] [::1]:51027 Closing

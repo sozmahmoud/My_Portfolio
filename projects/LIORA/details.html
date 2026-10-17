@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // Redirect from details.html to details.php
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        let redirectUrl = 'details.php';
+        
+        if (id) {
+            redirectUrl = 'details.php?id=' + encodeURIComponent(id);
+        }
+        
+        // Preserve any other query parameters
+        if (window.location.search) {
+            const allParams = new URLSearchParams(window.location.search);
+            redirectUrl = 'details.php?' + allParams.toString();
+        }
+        
+        window.location.href = redirectUrl;
+    </script>
+</head>
+<body>
+    <p>Redirecting to details page...</p>
+</body>
+</html>

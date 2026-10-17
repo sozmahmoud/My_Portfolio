@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // Redirect from giftdetail.html to giftdetail.php
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        let redirectUrl = 'giftdetail.php';
+        
+        if (id) {
+            redirectUrl = 'giftdetail.php?id=' + encodeURIComponent(id);
+        }
+        
+        // Preserve any other query parameters
+        if (window.location.search) {
+            const allParams = new URLSearchParams(window.location.search);
+            redirectUrl = 'giftdetail.php?' + allParams.toString();
+        }
+        
+        window.location.href = redirectUrl;
+    </script>
+</head>
+<body>
+    <p>Redirecting to gift detail page...</p>
+</body>
+</html>
