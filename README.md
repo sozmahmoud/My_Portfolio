@@ -69,23 +69,8 @@ Foundation in database systems, programming, web technologies, and software deve
 
 Building toward a role that combines strong database fundamentals with data analysis, visualization, and cloud technologies.
 
----
 
-## 📁 Repository Structure
 
-```text
-My_Portfolio/
-│
-├── img/
-│   ├── Certificates/
-│   ├── soz.jpg
-│   └── soz.png
-│
-├── Soz_Mahmood.pdf
-├── soz-mahmood-portfolio.html
-└── README.md
-```
 
----
 
 ⭐ Thanks for visiting — feel free to explore the projects and certificates in this repository.
