@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:#141B2E;
+      --paper:#EEF1EA;
+      --panel:#F8F9F4;
+      --line:#D9DCD1;
+      --text:#232A3B;
+      --text-soft:#5B6373;
+      --gold:#B9853A;
+      --gold-soft:#EADFC4;
+      --teal:#2F7A6D;
+      --teal-soft:#DCEAE6;
+      --shadow: 0 18px 40px rgba(17, 26, 38, 0.08);
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.7;
+    }
+
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 48px 24px 70px;
+      background: var(--paper);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .back-link,
+    .repo-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform .15s ease;
+      border-radius: 0;
+    }
+    .back-link { color: var(--text); background: rgba(255,255,255,0.02); }
+    .repo-link {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+    .back-link:hover, .repo-link:hover { transform: translateY(-1px); }
+
+    .project-detail {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .detail-hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(47,122,109,0.12), rgba(184,133,58,0.08));
+    }
+
+    .detail-visual {
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      position: relative;
+    }
+    .detail-visual::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      pointer-events: none;
+    }
+    .gallery-shell {
+      width: min(100%, 720px);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr) 56px;
+      align-items: center;
+      gap: 14px;
+    }
+    .gallery-stage {
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+      min-height: 330px;
+      max-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .gallery-stage img {
+      width: 100%;
+      height: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      display: block;
+      background: rgba(255,255,255,0.96);
+      cursor: pointer;
+    }
+    .project-preview-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(8, 12, 16, 0.72);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .2s ease, visibility .2s ease;
+    }
+    .project-preview-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .project-preview-modal {
+      position: relative;
+      width: min(92vw, 760px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: 0 28px 68px rgba(7, 11, 16, 0.38);
+      transform: translateY(18px) scale(.98);
+      transition: transform .2s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 18px 18px 18px;
+    }
+    .project-preview-overlay.active .project-preview-modal {
+      transform: translateY(0) scale(1);
+    }
+    .project-preview-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .project-preview-nav {
+      position: static;
+      transform: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      color: var(--text);
+      font-size: 26px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1;
+      box-shadow: 0 10px 28px rgba(17,26,38,0.08);
+      flex-shrink: 0;
+    }
+    .project-preview-frame {
+      flex: 1;
+      max-height: 78vh;
+      overflow: auto;
+      background: linear-gradient(135deg, rgba(47,122,109,0.08), rgba(184,133,58,0.08));
+    }
+    .project-preview-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 78vh;
+      object-fit: contain;
+      background: rgba(255,255,255,0.96);
+      margin: 0 auto;
+    }
+    .gallery-arrow {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
+      color: var(--ink);
+      font-size: 28px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 10px 20px rgba(17,26,38,0.08);
+    }
+    .gallery-arrow:hover {
+      background: white;
+      transform: translateY(-1px);
+    }
+    .gallery-arrow:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+    .gallery-meta {
+      position: relative;
+      z-index: 1;
+      margin-top: 12px;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    .detail-content {
+      padding: 36px 30px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .project-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 600;
+      line-height: 1.08;
+      color: var(--text);
+    }
+    .project-subtitle {
+      margin: 12px 0 18px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-soft);
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+    .tech-list span {
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 7px 10px;
+      border: 1px solid rgba(47,122,109,0.12);
+      border-radius: 999px;
+    }
+
+    .summary-block {
+      margin-top: 4px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+    .summary-block h3,
+    .readme-block h3,
+    .story-panel h3 {
+      margin: 0 0 12px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+    .summary-block p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--text-soft);
+      line-height: 1.8;
+    }
+
+    .readme-block {
+      padding: 30px 28px 34px;
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .readme-panel {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+      background: transparent;
+    }
+    .story-panel {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      padding: 22px 20px;
+    }
+    .story-panel p,
+    .story-panel li {
+      color: var(--text-soft);
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 0 0 12px;
+    }
+    .story-panel ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .story-panel strong { color: var(--text); }
+
+    @media (max-width: 900px) {
+      .detail-hero { grid-template-columns: 1fr; }
+      .detail-visual { min-height: 260px; }
+      .readme-panel { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="topbar">
+      <a class="back-link" href="index.html#projects">← Back to portfolio</a>
+      <a id="repoLink" class="repo-link" href="#" target="_blank" rel="noopener">View GitHub repository</a>
+    </div>
+
+    <div id="projectPreviewOverlay" class="project-preview-overlay" aria-hidden="true">
+      <div class="project-preview-modal" role="dialog" aria-modal="true" aria-label="Project image preview">
+        <button class="project-preview-close" type="button" aria-label="Close project preview">×</button>
+        <button class="project-preview-nav project-preview-prev" type="button" aria-label="Previous project image">‹</button>
+        <button class="project-preview-nav project-preview-next" type="button" aria-label="Next project image">›</button>
+        <div class="project-preview-frame">
+          <img id="projectPreviewImage" src="" alt="Project preview">
+        </div>
+      </div>
+    </div>
+
+    <article id="projectDetail" class="project-detail" aria-live="polite"></article>
+  </div>
+
+  <script>
+    const projectDetails = {
+      liora: {
+        title: 'LIORA',
+        tagline: 'Full Stack Flower E-Commerce Platform',
+        type: 'Full Stack Web Project',
+        image: 'projects/LIORA/Liora.png',
+        images: [
+          'projects/LIORA/Liora.png'
+        ],
+        repo: 'https://github.com/sozmahmoud/Liora_Uni_Final_Project',
+        live: 'https://liora-store.site.je/?i=1',
+        stack: ['PHP', 'MySQL', 'JavaScript', 'HTML5', 'CSS3'],
+        summary: 'LIORA is a graduation capstone e-commerce system focused on flower shopping, secure checkout, product discovery, and a more personalized buyer experience.',
+        readme: [
+          'This project blends modern e-commerce features with a clean storefront experience, allowing users to browse flower categories, view details, manage cart items, and complete the purchase journey securely.',
+          'Key capabilities include user registration, login, cart handling, product filtering, checkout flow, ordering, and a structured product catalog design for a flower store experience.',
+          'The project demonstrates a full-stack approach with PHP logic, MySQL storage, and browser-based front-end pages for a realistic online retail application.'
+        ]
+      },
+      airbnb: {
+        title: 'Airbnb Booking Analysis',
+        tagline: 'Tableau Dashboard for Revenue and Pricing Insights',
+        type: 'Tableau Dashboard',
+        image: 'projects/Airbnb Booking Analysis using Tableau/Airbnb Booking Analysis Result.png',
+        images: ['projects/Airbnb Booking Analysis using Tableau/Airbnb Booking Analysis Result.png'],
+        repo: 'https://github.com/sozmahmoud/Airbnb-Booking-Analysis-Tableau',
+        stack: ['Tableau', 'Excel', 'Data Visualization'],
+        summary: 'This dashboard analyzes Airbnb listing performance, highlighting how room type, bedroom count, ZIP code, and time trends influence pricing and revenue.',
+        readme: [
+          'The project uses a structured Airbnb dataset to explore pricing structure and listing behavior, helping answer business questions about occupancy, revenue, and location-based demand.',
+          'The workbook includes interactive filters for bedroom count and ZIP code, plus visually rich KPI charts to support analysis from sales and market intelligence perspectives.',
+          'It is designed as a polished portfolio example for business analytics work focused on telling a clear data story with Tableau.'
+        ]
+      },
+      amazon: {
+        title: 'Amazon Product Price Tracker',
+        tagline: 'Python Scraper and Price Monitoring System',
+        type: 'Python Web Scraper',
+        image: 'projects/Amazon Product Price Tracker & Web Scraper/amazon price tracker.png',
+        images: [
+          'projects/Amazon Product Price Tracker & Web Scraper/amazon price tracker.png',
+          'projects/Amazon Product Price Tracker & Web Scraper/amazon price history.png'
+        ],
+        repo: 'https://github.com/sozmahmoud/Amazon-Product-Price-Tracker-Web-Scraper',
+        stack: ['Python', 'Requests', 'BeautifulSoup', 'Pandas'],
+        summary: 'This project scrapes Amazon listings, extracts live pricing details, tracks history over time, and flags when the product reaches a target price.',
+        readme: [
+          'The notebook extracts title, price, rating, and review details from product pages and then saves periodic price snapshots into a local history file.',
+          'The tracker includes alert logic and summary statistics such as highest, lowest, average, and latest price, making it useful for monitoring one product over time.',
+          'The project demonstrates practical scraping, data cleaning, automation, and reporting using Python.'
+        ]
+      },
+      layoffs: {
+        title: 'World Layoffs SQL Analysis',
+        tagline: 'Data Cleaning and Exploratory Analysis in SQL',
+        type: 'SQL Data Cleaning',
+        image: 'projects/World Layoffs SQL Data Cleaning & Exploratory Analysis/SQL.png',
+        images: ['projects/World Layoffs SQL Data Cleaning & Exploratory Analysis/SQL.png'],
+        repo: 'https://github.com/sozmahmoud/World-Layoffs-SQL-Data-Cleaning-Exploratory-Analysis',
+        stack: ['SQL', 'MySQL', 'Data Cleaning', 'EDA'],
+        summary: 'This project demonstrates how to clean a noisy layoffs dataset, normalize values, remove duplicates, and then explore patterns in company downsizing.',
+        readme: [
+          'The workflow follows a realistic production-style data cleaning process, starting with staging tables and then standardizing inconsistent values and dates.',
+          'The analysis goes deeper than cleaning by using SQL queries to identify layoffs by company, country, industry, and time period while surfacing trends and anomalies.',
+          'It is a strong example of clean, readable, business-focused SQL analysis for portfolio use.'
+        ]
+      },
+      covid: {
+        title: 'COVID-19 Data Analysis',
+        tagline: 'Python + SQL Analysis of Global Health Trends',
+        type: 'Python + SQL Project',
+        image: 'projects/COVID-19 Global Data Analysis - Python, MySQL/chart1_top15.png',
+        images: [
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart1_top15.png',
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart1_top10.png',
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart2_timeline.png',
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart2_vax_vs_deaths.png',
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart3_bubble.png',
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart3_continents.png',
+          'projects/COVID-19 Global Data Analysis - Python, MySQL/chart4_cases_by_year.png'
+        ],
+        repo: 'https://github.com/sozmahmoud/COVID-19-Global-Data-Analysis-Python-MySQL',
+        stack: ['Python', 'Pandas', 'SQL Server', 'Matplotlib'],
+        summary: 'This project investigates COVID-19 outcomes across countries and continents using Python preprocessing and SQL-based analysis of public health data.',
+        readme: [
+          'The workflow starts with Python for data cleaning and transformation, then moves into SQL queries to analyze epidemic trends across time and geography.',
+          'It includes comparisons of cases, deaths, population impact, and vaccination progress, with visual outputs supporting the final findings.',
+          'The project is a strong example of combining data engineering with exploratory data analysis in a public-health context.'
+        ]
+      },
+      crypto: {
+        title: 'Crypto Market Intelligence',
+        tagline: 'Cryptocurrency Market Analysis and Visualization',
+        type: 'Python Analytics',
+        image: 'projects/Cryptocurrency Market Intelligence & Analytics/price_vs_market_cap.png',
+        images: [
+          'projects/Cryptocurrency Market Intelligence & Analytics/price_vs_market_cap.png',
+          'projects/Cryptocurrency Market Intelligence & Analytics/top_10_market_cap.png',
+          'projects/Cryptocurrency Market Intelligence & Analytics/daily_performance.png',
+          'projects/Cryptocurrency Market Intelligence & Analytics/correlation_heatmap.png',
+          'projects/Cryptocurrency Market Intelligence & Analytics/BTC_overtime.png',
+          'projects/Cryptocurrency Market Intelligence & Analytics/BTC_24H.png',
+          'projects/Cryptocurrency Market Intelligence & Analytics/line_chart.png'
+        ],
+        repo: 'https://github.com/sozmahmoud/Cryptocurrency-Market-Intelligence-Analytics',
+        stack: ['Python', 'Pandas', 'API', 'Seaborn'],
+        summary: 'This notebook collects live crypto market data, cleans it, and analyzes top coins to uncover market behavior and performance trends.',
+        readme: [
+          'The project fetches data from the CoinMarketCap API, normalizes fields, and evaluates metrics such as market cap, volume, and percentage movement.',
+          'It includes visual reports for Bitcoin trends, top performers, and correlation heatmaps, making it a strong data-story project with practical analytics value.',
+          'This is a clear demonstration of using APIs, Pandas workflows, and charting to turn raw market data into insight.'
+        ]
+      },
+      'customer-call': {
+        title: 'Customer Call List Cleaning',
+        tagline: 'Pandas Data Preparation for Real-World Contact Data',
+        type: 'Pandas Data Cleaning',
+        image: 'projects/Customer Call List Cleaning with Pandas/01_raw_data_before_cleaning.png',
+        images: [
+          'projects/Customer Call List Cleaning with Pandas/01_raw_data_before_cleaning.png',
+          'projects/Customer Call List Cleaning with Pandas/02_cleaned_data_after_cleaning.png'
+        ],
+        repo: 'https://github.com/sozmahmoud/Customer-Call-List-Cleaning-Pandas',
+        stack: ['Python', 'Pandas', 'Data Cleaning'],
+        summary: 'This project fixes messy customer records by cleaning names, formatting phone numbers, removing duplicates, and standardizing address fields.',
+        readme: [
+          'The workflow addresses common spreadsheet issues such as inconsistent text, stray characters, nulls, and mixed categorical values.',
+          'Using Pandas, the notebook transforms the raw call list into a clean dataset ready for outreach, filtering, and analysis.',
+          'It is a practical example of real-world data preparation work that mirrors operational analytics tasks.'
+        ]
+      },
+      cycleinsight: {
+        title: 'CycleInsight Dashboard',
+        tagline: 'Bike Buyer Analysis and Decision Dashboard',
+        type: 'Excel Dashboard',
+        image: 'projects/CycleInsight Bike Buyer Analysis & Dashboard/result.png',
+        images: ['projects/CycleInsight Bike Buyer Analysis & Dashboard/result.png'],
+        repo: 'https://github.com/sozmahmoud/CycleInsight-Bike-Buyer-Analysis-Dashboard',
+        stack: ['Excel', 'Pivot Tables', 'Dashboarding'],
+        summary: 'A bike-buying dashboard that helps explain which customer segments are more likely to purchase based on demographics, behavior, and purchase drivers.',
+        readme: [
+          'The analysis uses customer data and Excel reporting tools to identify influential patterns in bike purchases and target segments.',
+          'It includes dashboard-style summaries and slicer-ready exploration so that trends are easier to understand and share with stakeholders.',
+          'This project highlights Excel-based analytical storytelling and segmentation workflows.'
+        ]
+      },
+      survey: {
+        title: 'Data Professional Survey Dashboard',
+        tagline: 'Power BI Dashboard for Professional Trends',
+        type: 'Power BI Dashboard',
+        image: 'projects/Data Professional Survey Dashboard/data professional survey breakdown.png',
+        images: ['projects/Data Professional Survey Dashboard/data professional survey breakdown.png'],
+        repo: 'https://github.com/sozmahmoud/Data-Professional-Survey-Dashboard',
+        stack: ['Power BI', 'DAX', 'Data Modeling'],
+        summary: 'This Power BI dashboard explores salary trends, satisfaction, and role distribution across the data profession for an easy-to-read executive summary.',
+        readme: [
+          'The project focuses on creating a professional BI experience using KPIs, charts, and dashboard layout design to present survey responses clearly.',
+          'It covers work patterns, salary ranges, and satisfaction benchmarks, making the output useful for communication, reporting, and portfolio presentation.',
+          'It demonstrates a polished dashboard design workflow in Power BI for modern analytics portfolios.'
+        ]
+      },
+      population: {
+        title: 'World Population Explorer',
+        tagline: 'Global Demographic EDA with Pandas',
+        type: 'Pandas EDA',
+        image: 'projects/World Population Explorer A Pandas EDA of Global Demographics/Correlation Heatmap of World Population Variables.png',
+        images: [
+          'projects/World Population Explorer A Pandas EDA of Global Demographics/Correlation Heatmap of World Population Variables.png',
+          'projects/World Population Explorer A Pandas EDA of Global Demographics/Distribution and Outliers of Population Variables (Boxplot).png',
+          'projects/World Population Explorer A Pandas EDA of Global Demographics/Oceania Average Values Across Population and Geographic Indicators.png',
+          'projects/World Population Explorer A Pandas EDA of Global Demographics/verage Population by Continent, 1970-2022.png'
+        ],
+        repo: 'https://github.com/sozmahmoud/World-Population-Explorer-Pandas-EDA',
+        stack: ['Python', 'Pandas', 'Visualization', 'EDA'],
+        summary: 'This project explores population growth, regional change, and demographic relationships across countries using pandas-driven analysis and charts.',
+        readme: [
+          'The notebook combines dataset cleaning and exploratory analysis to compare output across years and regions while identifying the strongest demographic patterns.',
+          'Its visualizations include boxplots, correlations, and continent-level summaries to make the data story intuitive and presentation-ready.',
+          'It is an excellent example of structured exploratory analysis using Python and demographic data.'
+        ]
+      }
+    };
+
+    const paramKey = 'project';
+    const params = new URLSearchParams(window.location.search);
+    const projectId = params.get(paramKey) || 'liora';
+    const project = projectDetails[projectId] || projectDetails.liora;
+
+    const projectDetail = document.getElementById('projectDetail');
+    const techList = project.stack.map((item) => `<span>${item}</span>`).join('');
+    const readmeItems = project.readme.map((item) => `<p>${item}</p>`).join('');
+    const images = Array.isArray(project.images) && project.images.length ? project.images : [project.image];
+    const selectedImageIndex = 0;
+
+    const galleryMarkup = images.length > 1 ? `
+      <div class="gallery-shell">
+        <button class="gallery-arrow" type="button" data-direction="prev" aria-label="Previous project image">←</button>
+        <div class="gallery-stage">
+          <img class="gallery-image" src="${images[0]}" alt="${project.title} preview image 1" onerror="this.onerror=null;this.src='img/Certificates/Data Analyst Bootcamp 2026.png';" />
+        </div>
+        <button class="gallery-arrow" type="button" data-direction="next" aria-label="Next project image">→</button>
+      </div>
+      <div class="gallery-meta">1 / ${images.length}</div>
+    ` : `
+      <div class="gallery-shell">
+        <div class="gallery-stage" style="grid-column: 1 / -1;">
+          <img class="gallery-image" src="${images[0]}" alt="${project.title} preview image" onerror="this.onerror=null;this.src='img/Certificates/Data Analyst Bootcamp 2026.png';" />
+        </div>
+      </div>
+    `;
+
+    projectDetail.innerHTML = `
+      <div class="detail-hero">
+        <div class="detail-visual">
+          ${galleryMarkup}
+        </div>
+        <div class="detail-content">
+          <p class="eyebrow">${project.type}</p>
+          <h1 class="project-title">${project.title}</h1>
+          <p class="project-subtitle">${project.tagline}</p>
+          <div class="tech-list">${techList}</div>
+          <div class="summary-block">
+            <h3>Project Summary</h3>
+            <p>${project.summary}</p>
+          </div>
+        </div>
+      </div>
+      <div class="readme-block">
+        <h3>Project Story</h3>
+        <div class="readme-panel">
+          <div class="story-panel">
+            <h3>Overview</h3>
+            <p>${project.summary}</p>
+            <p><strong>Goal:</strong> Build a portfolio-quality solution that demonstrates practical problem solving, clean execution, and strong data/technical storytelling.</p>
+          </div>
+          <div class="story-panel">
+            <h3>Key Highlights</h3>
+            <ul>
+              <li>Applied modern tools, workflows, and visual communication to turn raw data or code into a clear project narrative.</li>
+              <li>Focused on business value, user experience, and analytical clarity instead of only technical output.</li>
+              <li>Designed the project to be easy to present, explain, and share in a professional portfolio environment.</li>
+            </ul>
+          </div>
+          <div class="story-panel" style="grid-column: 1 / -1;">
+            <h3>What I did</h3>
+            ${readmeItems}
+          </div>
+        </div>
+      </div>
+    `;
+
+    const galleryImage = document.querySelector('.gallery-image');
+    const galleryMeta = document.querySelector('.gallery-meta');
+    const galleryButtons = document.querySelectorAll('.gallery-arrow');
+    const projectPreviewOverlay = document.getElementById('projectPreviewOverlay');
+    const projectPreviewImage = document.getElementById('projectPreviewImage');
+    const projectPreviewClose = document.querySelector('.project-preview-close');
+    const projectPreviewPrev = document.querySelector('.project-preview-prev');
+    const projectPreviewNext = document.querySelector('.project-preview-next');
+
+    let currentIndex = 0;
+
+    const syncPreviewNavigation = () => {
+      if (projectPreviewPrev) {
+        projectPreviewPrev.style.display = images.length > 1 ? 'flex' : 'none';
+      }
+      if (projectPreviewNext) {
+        projectPreviewNext.style.display = images.length > 1 ? 'flex' : 'none';
+      }
+    };
+
+    const openProjectPreview = (src, alt) => {
+      if (!projectPreviewOverlay || !projectPreviewImage) return;
+      projectPreviewImage.src = src;
+      projectPreviewImage.alt = alt;
+      projectPreviewOverlay.classList.add('active');
+      projectPreviewOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      syncPreviewNavigation();
+    };
+
+    const closeProjectPreview = () => {
+      if (!projectPreviewOverlay) return;
+      projectPreviewOverlay.classList.remove('active');
+      projectPreviewOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    const updateGallery = () => {
+      if (!galleryImage) return;
+      galleryImage.src = images[currentIndex];
+      galleryImage.alt = `${project.title} preview image ${currentIndex + 1}`;
+      if (galleryMeta) {
+        galleryMeta.textContent = `${currentIndex + 1} / ${images.length}`;
+      }
+      if (projectPreviewOverlay.classList.contains('active') && projectPreviewImage) {
+        projectPreviewImage.src = images[currentIndex];
+        projectPreviewImage.alt = `${project.title} preview image ${currentIndex + 1}`;
+      }
+    };
+
+    if (galleryImage) {
+      galleryImage.addEventListener('click', () => {
+        openProjectPreview(images[currentIndex], `${project.title} preview image ${currentIndex + 1}`);
+      });
+    }
+
+    if (galleryButtons.length) {
+      galleryButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const direction = button.dataset.direction === 'next' ? 1 : -1;
+          currentIndex = (currentIndex + direction + images.length) % images.length;
+          updateGallery();
+        });
+      });
+    }
+
+    if (projectPreviewPrev) {
+      projectPreviewPrev.addEventListener('click', () => {
+        if (images.length <= 1) return;
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateGallery();
+      });
+    }
+
+    if (projectPreviewNext) {
+      projectPreviewNext.addEventListener('click', () => {
+        if (images.length <= 1) return;
+        currentIndex = (currentIndex + 1) % images.length;
+        updateGallery();
+      });
+    }
+
+    if (projectPreviewClose) {
+      projectPreviewClose.addEventListener('click', closeProjectPreview);
+    }
+
+    if (projectPreviewOverlay) {
+      projectPreviewOverlay.addEventListener('click', (event) => {
+        if (event.target === projectPreviewOverlay) {
+          closeProjectPreview();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && projectPreviewOverlay.classList.contains('active')) {
+          closeProjectPreview();
+        }
+        if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && projectPreviewOverlay.classList.contains('active') && images.length > 1) {
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          currentIndex = (currentIndex + direction + images.length) % images.length;
+          updateGallery();
+        }
+      });
+    }
+
+    syncPreviewNavigation();
+
+    const repoLink = document.getElementById('repoLink');
+    repoLink.href = project.live ? project.live : project.repo;
+    repoLink.target = '_blank';
+    repoLink.rel = 'noopener noreferrer';
+    repoLink.textContent = project.live ? 'Visit live website' : 'View GitHub repository';
+  </script>
+</body>
+</html>
