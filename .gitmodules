@@ -1,0 +1,6 @@
+# .gitmodules - cleaned by GitHub Copilot on behalf of @sozmahmoud
+# Removed the broken submodule entry for: projects/Amazon Product Price Tracker & Web Scraper
+# If you intended to keep that project as a submodule, re-add it with:
+# [submodule "projects/Amazon Product Price Tracker & Web Scraper"]
+#     path = projects/Amazon Product Price Tracker & Web Scraper
+#     url = <REPO-URL-HERE>
