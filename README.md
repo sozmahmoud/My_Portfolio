@@ -5,7 +5,7 @@ Database Technology graduate with hands-on experience in SQL, Python, Excel, Pow
 🔗 **Live Portfolio:** https://sozmahmoud.github.io/My_Portfolio/
 🔗 **GitHub:** https://github.com/sozmahmoud
 🔗 **LinkedIn:** https://linkedin.com/in/soz-mahmoud-41b22725a
-📄 **CV:** [Download CV PDF](Soz_Mahmood_CV.pdf)
+📄 **CV:** [Download CV PDF](SozM_CV.pdf)
 📧 **Email:** [sozmahmood202@gmail.com](mailto:sozmahmood202@gmail.com)
 📍 **Location:** Sulaymaniyah, Iraq
 
