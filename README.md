@@ -1,19 +1,21 @@
 # Soz Mahmood — Data Analytics Portfolio
 
-Database Technology graduate building a career in **data analytics**, with a working foundation in SQL, Python, BI tools, and cloud platforms.
+Database Technology graduate with hands-on experience in SQL, Python, Excel, Power BI, Tableau, and web development. I enjoy turning raw data into clear business insights and building practical data-driven solutions.
 
-🔗 **Live Portfolio:** [Add your GitHub Pages link here]
-🔗 **LinkedIn:** [Add your LinkedIn profile link here]
+🔗 **Live Portfolio:** https://sozmahmoud.github.io/My_Portfolio/
+🔗 **GitHub:** https://github.com/sozmahmoud
+🔗 **LinkedIn:** https://linkedin.com/in/soz-mahmoud-41b22725a
+📄 **CV:** [Download CV PDF](Soz_Mahmood_CV.pdf)
 📧 **Email:** [sozmahmood202@gmail.com](mailto:sozmahmood202@gmail.com)
-📍 Sulaymaniyah, Iraq
+📍 **Location:** Sulaymaniyah, Iraq
 
 ---
 
 ## 👋 About Me
 
-I'm a Database Technology graduate with a foundation in database systems, programming, web development, and data analysis — built through academic study, 30+ certifications, and hands-on projects.
+I’m a Database Technology graduate with a strong foundation in database systems, programming, web technologies, and analytics. My work combines academic learning with real-world projects covering data cleaning, dashboarding, ETL workflows, and business reporting.
 
-I enjoy turning raw, messy data into clear insights, and I'm currently deepening my skills in data analytics, visualization, and cloud computing (AWS/Azure) to build practical, data-driven solutions.
+I’m focused on developing practical analytical skills and building projects that show how data can support better decisions across business and technology domains.
 
 ---
 
@@ -23,43 +25,38 @@ I enjoy turning raw, messy data into clear insights, and I'm currently deepening
 |---|---|
 | **Data Analysis & BI** | SQL, Excel, Tableau, Power BI, Python, Pandas |
 | **Programming & Web** | Python, Java, SQL, HTML, CSS, JavaScript |
-| **Data Workflows** | Data cleaning, EDA, dashboarding, data reporting, web scraping |
-| **Cloud** | AWS, Microsoft Azure |
-| **Tools** | Git/GitHub, MySQL, Database Design, Microsoft Office, Canva |
+| **Data Workflows** | Data cleaning, EDA, dashboarding, reporting, web scraping |
+| **Cloud & Tools** | AWS, Microsoft Azure, Git/GitHub, MySQL, Microsoft Office |
 
 ---
 
 ## 📊 Featured Projects
 
-### 🔹 [World Layoffs — SQL Data Cleaning & Analysis](#)
-End-to-end SQL project cleaning and analyzing a global layoffs dataset.
-- Removed duplicates, standardized inconsistent fields, and handled NULLs
-- Converted and validated date fields for time-series analysis
-- Used CTEs, subqueries, window functions, rolling totals, and ranking to surface layoff trends by company, industry, and country
+### 🔹 [Airbnb Booking Analysis using Tableau](projects/Airbnb%20Booking%20Analysis%20using%20Tableau/README.md)
+Business analysis and dashboarding project focused on Airbnb booking trends and performance insights.
 
-### 🔹 [Data Analysis Projects — Excel, Tableau, Power BI, Python](#)
-A set of end-to-end analyses turning raw data into business-ready insights.
-- Cleaned and transformed raw datasets for analysis
-- Built interactive dashboards to visualize key metrics
-- Delivered business-focused findings through charts and summaries
+### 🔹 [World Layoffs SQL Data Cleaning & Exploratory Analysis](projects/World%20Layoffs%20SQL%20Data%20Cleaning%20%26%20Exploratory%20Analysis/README.md)
+End-to-end SQL project covering data cleaning, standardization, exploratory analysis, and insights generation.
 
-### 🔹 [Python Web Scraping Project](#)
-A scraper built with **Python, Requests, and BeautifulSoup**.
-- Extracted structured data from a live website
-- Loaded results into a Pandas DataFrame and exported to CSV for downstream analysis
+### 🔹 [Amazon Product Price Tracker & Web Scraper](projects/Amazon%20Product%20Price%20Tracker%20%26%20Web%20Scraper/README.md)
+Python-based product tracking workflow using web scraping, data processing, and structured output.
 
-*(Replace the `#` links above with paths to each project folder or notebook once uploaded.)*
+### 🔹 [COVID-19 Global Data Analysis - Python, MySQL](projects/COVID-19%20Global%20Data%20Analysis%20-%20Python,%20MySQL/README.md)
+Data analysis project combining Python and MySQL to explore global COVID-19 datasets.
 
 ---
 
 ## 🎓 Education
 
 **Database Technology** — Technical College of Informatics
+
 Foundation in database systems, programming, web technologies, and software development.
+
+---
 
 ## 📜 Certifications
 
-30+ certifications across Data Analysis, Python, Microsoft Excel, AI, Software Engineering, Information Security, Database Systems, Cryptography, Business Analysis, and Digital Marketing. See `img/Certificates/` for badges, or connect on LinkedIn for the full list.
+30+ certifications across data analysis, Python, Excel, AI, information security, database systems, business analysis, and digital marketing. The repository also includes certificate assets under the gallery section of the portfolio.
 
 ---
 
@@ -67,10 +64,8 @@ Foundation in database systems, programming, web technologies, and software deve
 
 **SQL → Excel → Tableau → Power BI → Python → AWS → Azure**
 
-Building toward a role that combines strong database fundamentals with data analysis, visualization, and cloud technologies.
+I’m building toward a role that combines database fundamentals, analytics, visualization, and cloud-based solutions.
 
+---
 
-
-
-
-⭐ Thanks for visiting — feel free to explore the projects and certificates in this repository.
+⭐ Thanks for visiting — feel free to explore the portfolio and the projects in this repository.
