@@ -869,8 +869,8 @@
       <p class="lede">Completed coursework spanning software engineering, security, AI, cloud, marketing, English, and — most recently — data analysis.</p>
 
       <div class="cert-summary">
-        <span class="summary-pill">53 certificates</span>
-        <span class="summary-text">Industry-recognized learning across 2023–2026, shown with available certificate images.</span>
+        <span class="summary-pill">Certificates</span>
+        <span class="summary-text">Newest credential: Building a Business Presence With Facebook Marketing — industry-recognized learning across 2023–2026, shown with available certificate images.</span>
       </div>
 
       <div id="certificateGrid" class="cert-gallery"></div>
@@ -1184,6 +1184,7 @@
   });
 
   const certs = [
+    { type: 'Certificate of Completion', title: 'Building a Business Presence With Facebook Marketing', issuer: 'Meta via Coursera', date: 'October 2026', img: 'Building_a_Business_Presence_With_Facebook_Marketing.png' },
     { type: 'Certificate of Participation', title: '25-hour online English course for the intermediate level', issuer: 'English Course', date: 'June 26, 2024', img: 'english course.jpg' },
     { type: 'Certificate of Achievement', title: 'ESL004: Advanced English as a Second Language', issuer: 'Saylor Academy', date: 'July 16, 2024', img: 'advanced english as a second languages-1.png' },
     { type: 'Certificate of Achievement', title: 'An Introduction to Cryptography', issuer: 'University of Leeds / Click Start / Institute of Coding via FutureLearn', date: 'September 3, 2024', img: 'an-intro-to-cryptography_certificate_of_achievement_ebypmj7-1.png' },
@@ -1274,6 +1275,19 @@
   };
 
   const sortedCerts = [...certs].sort((a, b) => parseDate(b.date) - parseDate(a.date));
+
+  const summaryPill = document.querySelector('.summary-pill');
+  const summaryText = document.querySelector('.summary-text');
+
+  if (summaryPill) {
+    summaryPill.textContent = `${sortedCerts.length} certificates`;
+  }
+
+  if (summaryText) {
+    const newestCert = sortedCerts[0];
+    const newestLabel = newestCert ? `Newest credential: ${newestCert.title}` : 'Newest credential';
+    summaryText.textContent = `${newestLabel} — industry-recognized learning across 2023–2026, shown with available certificate images.`;
+  }
 
   sortedCerts.forEach((cert) => {
     const card = document.createElement('article');
